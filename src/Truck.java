@@ -12,14 +12,14 @@ public class Truck
     public static final int TRUCK_WIDTH = 2000;
     public static final int TRUCK_HEIGHT = 1000;
     private int remainingWidth;
-    private int remainingHeight;
+    //private int remainingHeight;
     private List<Box> boxes;    // Box List to hold all bottom-level boxes.
 
     public Truck()
     {
         // Initialise Truck so that it's remaining space is it's default capacity.
         this.remainingWidth = TRUCK_WIDTH;
-        this.remainingHeight = TRUCK_HEIGHT;
+        //this.remainingHeight = TRUCK_HEIGHT;
         boxes = new ArrayList<Box>();
     }
 
@@ -28,10 +28,10 @@ public class Truck
         return remainingWidth;
     }
 
-    public int getRemainingHeight()
-    {
-        return remainingHeight;
-    }
+//    public int getRemainingHeight()
+//    {
+//        return remainingHeight;
+//    }
 
     public List<Box> getBoxes()
     {
@@ -55,14 +55,9 @@ public class Truck
 //        }
 
         // Update remaining height/width using dimensions of new box.
-        this.remainingHeight -= box.getHeight();
+        //this.remainingHeight -= box.getHeight();
         this.remainingWidth -= box.getWidth();
 
-        this.boxes.add(box);
-    }
-
-    public void addBoxNFTLP(Box box)
-    {
         this.boxes.add(box);
     }
 
@@ -75,10 +70,10 @@ public class Truck
      */
     public boolean canFit(Box box)
     {
-        // Box must fit in remaining width and height.
+        // Box must fit within truck's remaining width and maximum height.
         if (box.getWidth() > remainingWidth)
             return false;
-        if (box.getHeight() > remainingHeight)
+        if (box.getHeight() > TRUCK_HEIGHT)
             return false;
         // If there are no boxes/piles yet, then there is space.
 //        if (boxes.size() == 0)
@@ -88,32 +83,13 @@ public class Truck
         return true;
     }
 
-    public boolean canFitNFTLP(Box box)
-    {
-        // Box must fit in remaining width and height.
-        if (box.getWidth() > remainingWidth)
-            return false;
-        if (box.getHeight() > remainingHeight)
-            return false;
-        // If there are no boxes/piles yet, then there is space.
-        if (boxes.size() == 0)
-            return true;
-
-        // Check last box/pile in the list to check if the new box fits (this is Next-Fit).
-        if (boxes.get(boxes.size() - 1).canFitBox(box))
-            return true;
-
-        // Otherwise, return false as no fits.
-        return false;
-    }
-
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
         sb.append("Truck{" +
                 "remainingWidth=" + remainingWidth +
-                ", remainingHeight=" + remainingHeight +
+                ", maxHeight=" + TRUCK_HEIGHT +
                 ", boxes={");
 
         for (Box b : boxes)

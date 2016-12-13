@@ -26,6 +26,22 @@ public class Box
         return height;
     }
 
+    public int getPileHeight()
+    {
+        // If there is a box above this one, sum up the total height
+        // of the pile of boxes.
+        // This works recursively to add up the height of every box above this one in the pile.
+        if (aboveBox != null)
+        {
+            return height + aboveBox.getPileHeight();
+        }
+        else
+        {
+            return height;
+        }
+
+    }
+
     public Box getAboveBox()
     {
         return aboveBox;
@@ -44,11 +60,11 @@ public class Box
 
         // If we have a box above this, check if that can fit the new box and if so, set it to be above that box.
         // This will work recursively upwards.
-        if (getAboveBox() != null)
+        if (this.aboveBox != null)
         {
-            if (getAboveBox().canFitBox(aboveBox))
+            if (this.aboveBox.canFitBox(aboveBox))
             {
-                getAboveBox().setAboveBox(aboveBox);
+                this.aboveBox.setAboveBox(aboveBox);
                 return;
             }
         }
@@ -63,11 +79,15 @@ public class Box
         if (box.getWidth() > this.getWidth())
             return false;
 
+        // If the new box causes a pile to be created that is higher than the truck itself, return false.
+        if (getPileHeight() + box.getHeight() > Truck.TRUCK_HEIGHT)
+            return false;
+
         // Check if the above box can fit the new box, if so, return true.
         // This will work recursively upwards.
         if (aboveBox != null)
         {
-            return getAboveBox().canFitBox(box);
+            return aboveBox.canFitBox(box);
         }
 
         // If aboveBox is null AND the box is small enough, it will fit on top of this box.
@@ -85,7 +105,7 @@ public class Box
         if (aboveBox != null)
             sb.append(", aboveBox=" + aboveBox.toString());
 
-        sb.append("}");
+        sb.append("} pileHeight=" + getPileHeight());
 
         return sb.toString();
     }

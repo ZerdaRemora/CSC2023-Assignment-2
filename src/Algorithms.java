@@ -40,6 +40,13 @@ public class Algorithms
         boxes.add(new Box(600, 300));
         boxes.add(new Box(400, 200));
         boxes.add(new Box(550, 200));
+        boxes.add(new Box(525, 100));
+        boxes.add(new Box(225, 700));
+        boxes.add(new Box(20, 70));
+        boxes.add(new Box(30, 70));
+        boxes.add(new Box(300, 700));
+        boxes.add(new Box(300, 700));
+
         BoxGenerator.generate();
 
         // Possibly too much nesting going on here...
@@ -53,7 +60,7 @@ public class Algorithms
             for (Truck t : trucks)
             {
                 truckCount++;
-                System.out.println("\nCurrent truck " + truckCount + ": remWidth: " + t.getRemainingWidth() + "; remHeight: " + t.getRemainingHeight());
+                System.out.println("\nCurrent truck " + truckCount + ": remWidth: " + t.getRemainingWidth() + "; maxHeight: " + Truck.TRUCK_HEIGHT);
 
                 // If the truck has no other boxes...
                 if (t.getBoxes().size() == 0)
