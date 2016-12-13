@@ -33,17 +33,60 @@ public class Box
 
     public void setAboveBox(Box aboveBox)
     {
-        // Validate before setting.
-        // Also, bear in mind that the above box cannot be changed
-        // so maybe have a boolean flag that checks if it has been changed previously.
+        /* If the incoming box won't fit on this box, return from the method.
+           Ideally would throw an exception here or return a boolean however as the user
+           of the code is myself, I can ensure only boxes that fit will be passed to this method.
+        */
+        if (!canFitBox(aboveBox))
+        {
+            return;
+        }
+
+        // If we have a box above this, check if that can fit the new box and if so, set it to be above that box.
+        // This will work recursively upwards.
+        if (getAboveBox() != null)
+        {
+            if (getAboveBox().canFitBox(aboveBox))
+            {
+                getAboveBox().setAboveBox(aboveBox);
+                return;
+            }
+        }
+        // If there is nothing above this box and it will fit okay, set it to be above this box.
         this.aboveBox = aboveBox;
     }
 
     public boolean canFitBox(Box box)
     {
-        // Check if a box can fit on this box.
-        // i.e. length/width less/equal to this
-        // and no other boxes on this box.
-        return false;
+        // Check if a box can fit on this box. It must have a width that is less than or equal
+        // to the current width.
+        if (box.getWidth() > this.getWidth())
+            return false;
+
+        // Check if the above box can fit the new box, if so, return true.
+        // This will work recursively upwards.
+        if (aboveBox != null)
+        {
+            return getAboveBox().canFitBox(box);
+        }
+
+        // If aboveBox is null AND the box is small enough, it will fit on top of this box.
+        return true;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Box{" +
+                "width=" + width +
+                ", height=" + height);
+
+        if (aboveBox != null)
+            sb.append(", aboveBox=" + aboveBox.toString());
+
+        sb.append("}");
+
+        return sb.toString();
     }
 }
