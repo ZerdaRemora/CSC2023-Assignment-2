@@ -5,10 +5,12 @@ import java.util.Random;
 /**
  * Used for generating sequences of boxes for testing each algorithm
  * for the Truck Loading Problem.
+ * Populates the public static ArrayLists in {@link Algorithms} to ensure that
+ * both ArrayLists have the exact same contents.
  */
 public class BoxGenerator
 {
-    public static List<Box> generate()
+    public static void generate()
     {
         List<Box> boxes = new ArrayList<Box>();
 
@@ -17,7 +19,9 @@ public class BoxGenerator
             Random r = new Random();
             int width = r.nextInt(2000) + 1;    // Generates between 0 and 1999 so add 1 to give numbers between 1 and 2000.
             int height = r.nextInt(1000) + 1;   // Generates between 0 and 999 so add 1 to give numbers between 1 and 1000.
-            boxes.add(new Box(width, height));
+            //boxes.add(new Box(width, height));
+            Algorithms.firstFitBoxes.add(new Box(width, height));
+            Algorithms.nextFitBoxes.add(new Box(width, height));
         }
 
 //        boxes.add(new Box(300, 100));
@@ -34,7 +38,5 @@ public class BoxGenerator
 //        boxes.add(new Box(300, 700));
 //        boxes.add(new Box(300, 700));
 //        boxes.add(new Box(2000, 1000));
-
-        return boxes;
     }
 }

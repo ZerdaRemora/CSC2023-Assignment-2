@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,10 +10,15 @@ public class Algorithms
     public static final int NUMBER_OF_BOXES = 50;
 
     private static List<Truck> trucks;
-    private static List<Box> boxes;
+    private static List<Box> generatedBoxes;
+    public static List<Box> nextFitBoxes = new ArrayList<Box>();
+    public static List<Box> firstFitBoxes = new ArrayList<Box>();
 
     public static void main(String[] args) throws InterruptedException
     {
+        // Generate test data for both algorithms.
+        BoxGenerator.generate();
+
         System.out.println("Next Fit Truck Loading Problem Start");
 
         long startTime = System.currentTimeMillis();
@@ -55,7 +61,7 @@ public class Algorithms
 
     public static List<Truck> NFTLP()
     {
-        // Initialise list.
+        // Initialise truck list.
         trucks = new ArrayList<Truck>();
         // Create and add 50 trucks.
         for (int i = 0; i < NUMBER_OF_BOXES; i++)
@@ -63,13 +69,10 @@ public class Algorithms
             trucks.add(new Truck()); // Alternatively, could have as many trucks as boxes to ensure enough trucks.
         }
 
-        // Initialise and generate list of boxes.
-        boxes = BoxGenerator.generate();
-
         int truckCount = 0; // To keep track of current/last used truck.
         int pileCount = 0;  // To keep track of current/last used pile in current/last used truck.
 
-        for (Box b : boxes)
+        for (Box b : nextFitBoxes)
         {
             System.out.println("\n\nCurrent box: width: " + b.getWidth() + "; height: " + b.getHeight());
             Truck t = trucks.get(truckCount);
@@ -122,19 +125,19 @@ public class Algorithms
         }   // End of Box loop
 
         // Display each truck and it's contents.
-        for (Truck t : trucks)
-        {
-            System.out.println("\n--------------------------------");
-            System.out.println(t.toString());
-            System.out.println("--------------------------------");
-        }
+//        for (Truck t : trucks)
+//        {
+//            System.out.println("\n--------------------------------");
+//            System.out.println(t.toString());
+//            System.out.println("--------------------------------");
+//        }
 
         return trucks;
     }
 
     public static List<Truck> FFTLP()
     {
-        // Initialise list.
+        // Initialise truck list.
         trucks = new ArrayList<Truck>();
         // Create and add 50 trucks.
         for (int i = 0; i < NUMBER_OF_BOXES; i++)
@@ -142,12 +145,9 @@ public class Algorithms
             trucks.add(new Truck()); // Alternatively, could have as many trucks as boxes to ensure enough trucks.
         }
 
-        // Initialise and generate list of boxes.
-        boxes = BoxGenerator.generate();
-
         // Possibly too much nesting going on here...
         // For each generated box...
-        for (Box b : boxes)
+        for (Box b : firstFitBoxes)
         {
             System.out.println("\n\nCurrent box: width: " + b.getWidth() + "; height: " + b.getHeight());
             int truckCount = 0;
@@ -186,6 +186,7 @@ public class Algorithms
                 // Check if there is enough remaining room to create a new pile with the box.
                 if (t.addBox(b))
                 {
+                    System.out.println("New pile created: " + pileCount);
                     // If enough room, box will be added as a new pile in the truck and continue to the next box.
                     break truckloop;
                 }
@@ -196,12 +197,12 @@ public class Algorithms
         } // End of Box loop
 
         // Display each truck and it's contents.
-        for (Truck t : trucks)
-        {
-            System.out.println("\n--------------------------------");
-            System.out.println(t.toString());
-            System.out.println("--------------------------------");
-        }
+//        for (Truck t : trucks)
+//        {
+//            System.out.println("\n--------------------------------");
+//            System.out.println(t.toString());
+//            System.out.println("--------------------------------");
+//        }
 
         return trucks;
     }
