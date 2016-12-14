@@ -47,32 +47,33 @@ public class Box
         return aboveBox;
     }
 
-    public void setAboveBox(Box aboveBox)
+    public boolean setAboveBox(Box box)
     {
         /* If the incoming box won't fit on this box, return from the method.
            Ideally would throw an exception here or return a boolean however as the user
            of the code is myself, I can ensure only boxes that fit will be passed to this method.
         */
-        if (!canFitBox(aboveBox))
+        if (!canFitBox(box))
         {
-            return;
+            return false;
         }
 
         // If we have a box above this, check if that can fit the new box and if so, set it to be above that box.
         // This will work recursively upwards.
         if (this.aboveBox != null)
         {
-            if (this.aboveBox.canFitBox(aboveBox))
+            if (this.aboveBox.canFitBox(box))
             {
-                this.aboveBox.setAboveBox(aboveBox);
-                return;
+                this.aboveBox.setAboveBox(box);
+                return true;
             }
         }
         // If there is nothing above this box and it will fit okay, set it to be above this box.
-        this.aboveBox = aboveBox;
+        this.aboveBox = box;
+        return true;
     }
 
-    public boolean canFitBox(Box box)
+    private boolean canFitBox(Box box)
     {
         // Check if a box can fit on this box. It must have a width that is less than or equal
         // to the current width.

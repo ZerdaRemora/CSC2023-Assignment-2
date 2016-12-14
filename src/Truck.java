@@ -11,7 +11,7 @@ public class Truck
 {
     public static final int TRUCK_WIDTH = 2000;
     public static final int TRUCK_HEIGHT = 1000;
-    private int remainingWidth;
+    private int remainingWidth; // Represents the amount of width space on the truck bed.
     //private int remainingHeight;
     private List<Box> boxes;    // Box List to hold all bottom-level boxes.
 
@@ -38,10 +38,11 @@ public class Truck
         return boxes;
     }
 
-    public void addBox(Box box)
+    public boolean addBox(Box box)
     {
+        // If box is too big for the truck, return false.
         if (!canFit(box))
-            return;
+            return false;
 
 //        for (Box b : boxes)
 //        {
@@ -54,11 +55,12 @@ public class Truck
 //            }
 //        }
 
-        // Update remaining height/width using dimensions of new box.
-        //this.remainingHeight -= box.getHeight();
+        // If box fits at the bottom of the truck fine,
+        // update remaining width using dimensions of new box,
+        // add the box to the truck, and return true.
         this.remainingWidth -= box.getWidth();
-
         this.boxes.add(box);
+        return true;
     }
 
     /**
@@ -68,7 +70,7 @@ public class Truck
      * @param box The box to check fits.
      * @return True if the box is small enough to fit in the truck, false if otherwise.
      */
-    public boolean canFit(Box box)
+    private boolean canFit(Box box)
     {
         // Box must fit within truck's remaining width and maximum height.
         if (box.getWidth() > remainingWidth)
