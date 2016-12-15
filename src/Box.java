@@ -47,6 +47,18 @@ public class Box
         return aboveBox;
     }
 
+    public int numberOfBoxesInPile()
+    {
+        if (aboveBox != null)
+        {
+            return 1 + aboveBox.numberOfBoxesInPile();
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
     public boolean setAboveBox(Box box)
     {
         /* If the incoming box won't fit on this box, return from the method.

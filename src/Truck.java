@@ -11,15 +11,14 @@ public class Truck
 {
     public static final int TRUCK_WIDTH = 2000;
     public static final int TRUCK_HEIGHT = 1000;
+    public static final int MAX_NUMBER_OF_BOXES = 10;
     private int remainingWidth; // Represents the amount of width space on the truck bed.
-    //private int remainingHeight;
     private List<Box> boxes;    // Box List to hold all bottom-level boxes.
 
     public Truck()
     {
         // Initialise Truck so that it's remaining space is it's default capacity.
         this.remainingWidth = TRUCK_WIDTH;
-        //this.remainingHeight = TRUCK_HEIGHT;
         boxes = new ArrayList<Box>();
     }
 
@@ -63,6 +62,17 @@ public class Truck
         return true;
     }
 
+    public int getBoxCount()
+    {
+        int count = 0;
+        for (Box b : boxes)
+        {
+            count += b.numberOfBoxesInPile();
+        }
+
+        return count;
+    }
+
     /**
      * Checks if a box will fit in the Truck. Only checks if the box's dimensions
      * are correct. To find an appropriate fit on a pile or as a separate pile, boxes in
@@ -99,7 +109,8 @@ public class Truck
             sb.append("\n\t" + b.toString());
         }
 
-        sb.append("\n\t}\n}");
+        sb.append("\n\t}\n} ");
+        sb.append("Total number of boxes: " + getBoxCount() + "\n");
         return sb.toString();
     }
 }

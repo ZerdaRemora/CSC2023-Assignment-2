@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -7,10 +6,9 @@ import java.util.List;
  */
 public class Algorithms
 {
-    public static final int NUMBER_OF_BOXES = 50;
+    public static final int NUMBER_OF_BOXES = 1000;
 
     private static List<Truck> trucks;
-    private static List<Box> generatedBoxes;
     public static List<Box> nextFitBoxes = new ArrayList<Box>();
     public static List<Box> firstFitBoxes = new ArrayList<Box>();
 
@@ -31,6 +29,9 @@ public class Algorithms
             // Check each truck to see if it has any boxes, if it does, that Truck has been used.
             if (t.getBoxes().size() != 0)
                 usedTrucks++;
+//            System.out.println("\n--------------------------------");
+//            System.out.println(t.toString());
+//            System.out.println("--------------------------------");
         }
 
         System.out.println("Next Fit Truck Loading Problem End");
@@ -52,6 +53,9 @@ public class Algorithms
             // Check each truck to see if it has any boxes, if it does, that Truck has been used.
             if (t.getBoxes().size() != 0)
                 usedTrucks++;
+//            System.out.println("\n--------------------------------");
+//            System.out.println(t.toString());
+//            System.out.println("--------------------------------");
         }
 
         System.out.println("First Fit Truck Loading Problem End");
@@ -74,14 +78,35 @@ public class Algorithms
 
         for (Box b : nextFitBoxes)
         {
-            System.out.println("\n\nCurrent box: width: " + b.getWidth() + "; height: " + b.getHeight());
+//            System.out.println("\n\nCurrent box: width: " + b.getWidth() + "; height: " + b.getHeight());
             Truck t = trucks.get(truckCount);
-            System.out.println("\nCurrent truck " + truckCount + ": remWidth: " + t.getRemainingWidth() + "; maxHeight: " + Truck.TRUCK_HEIGHT);
+//            System.out.println("\nCurrent truck " + truckCount + ": remWidth: " + t.getRemainingWidth() + "; maxHeight: " + Truck.TRUCK_HEIGHT);
+
+            // If this new box will put the truck over the box limit, put it in a new truck.
+            if (t.getBoxCount() + 1 > Truck.MAX_NUMBER_OF_BOXES)
+            {
+                truckCount++;
+                pileCount = 0;
+                if (truckCount < trucks.size()) // If we generate as many trucks as there are boxes, this shouldn't be an issue.
+                {
+                    if (trucks.get(truckCount).addBox(b)) // (Try) and add the box to the new truck.
+                    {
+                        // Box was able to be added to the new Truck.
+//                    System.out.println("Box added to new Truck " + truckCount);
+                    }
+                    else
+                    {
+                        // Box couldn't be added because as dimensions are too big.
+                    }
+
+                    continue;
+                }
+            }
 
             // Check if truck is empty...
             if (t.getBoxes().size() == 0)
             {
-                System.out.println("No other boxes in truck " + truckCount);
+//                System.out.println("No other boxes in truck " + truckCount);
                 // Add the box to the truck and continue to the next box.
                 if (!t.addBox(b))
                     // If box is too big for an empty truck, it's going to be too big for every truck so just skip it.
@@ -94,7 +119,7 @@ public class Algorithms
             // Try and add the box to last accessed pile...
             if (t.getBoxes().get(pileCount).setAboveBox(b))
             {
-                System.out.println("Box fits in pile " + pileCount);
+//                System.out.println("Box fits in pile " + pileCount);
                 continue;
             }
 
@@ -102,7 +127,7 @@ public class Algorithms
             if (t.addBox(b))
             {
                 pileCount++;
-                System.out.println("New pile created: " + pileCount);
+//                System.out.println("New pile created: " + pileCount);
                 continue;   // ...If we can, increment the pileCounter to this new pile and continue to next box.
             }
 
@@ -114,23 +139,15 @@ public class Algorithms
             {
                 if (trucks.get(truckCount).addBox(b)) // (Try) and add the box to the new truck.
                 {
-                    System.out.println("Box added to new Truck " + truckCount);
+//                    System.out.println("Box added to new Truck " + truckCount);
                 }
                 else
                 {
-                    System.out.println("Box couldn't be added as dimensions too big.");
+//                    System.out.println("Box couldn't be added as dimensions too big.");
                 }
 
             }
         }   // End of Box loop
-
-        // Display each truck and it's contents.
-//        for (Truck t : trucks)
-//        {
-//            System.out.println("\n--------------------------------");
-//            System.out.println(t.toString());
-//            System.out.println("--------------------------------");
-//        }
 
         return trucks;
     }
@@ -149,19 +166,25 @@ public class Algorithms
         // For each generated box...
         for (Box b : firstFitBoxes)
         {
-            System.out.println("\n\nCurrent box: width: " + b.getWidth() + "; height: " + b.getHeight());
+//            System.out.println("\n\nCurrent box: width: " + b.getWidth() + "; height: " + b.getHeight());
             int truckCount = 0;
             // and for each truck in the list...
             truckloop:  // Label to assist with breaking out of this loop while in a nested-for.
             for (Truck t : trucks)
             {
                 truckCount++;
-                System.out.println("\nCurrent truck " + truckCount + ": remWidth: " + t.getRemainingWidth() + "; maxHeight: " + Truck.TRUCK_HEIGHT);
+//                System.out.println("\nCurrent truck " + truckCount + ": remWidth: " + t.getRemainingWidth() + "; maxHeight: " + Truck.TRUCK_HEIGHT);
+
+                // If this new box will put the truck over the box limit, continue to next truck.
+                if (t.getBoxCount() + 1 > Truck.MAX_NUMBER_OF_BOXES)
+                {
+                    continue truckloop;
+                }
 
                 // If the truck has no other boxes...
                 if (t.getBoxes().size() == 0)
                 {
-                    System.out.println("No other boxes in truck " + truckCount);
+//                    System.out.println("No other boxes in truck " + truckCount);
                     // Add the box to the truck, break out of the inner loop and continue to the next box.
                     t.addBox(b);
                     break truckloop;
@@ -171,12 +194,12 @@ public class Algorithms
                 // If the truck has other boxes (piles)...
                 for (Box p : t.getBoxes())
                 {
-                    System.out.println("Check pile " + pileCount);
+//                    System.out.println("Check pile " + pileCount);
                     // Check if they can each fit the new box above them...
                     if (p.setAboveBox(b))
                     {
                         // If box can fit in the pile, box is added to the pile.
-                        System.out.println("Box fits in pile " + pileCount);
+//                        System.out.println("Box fits in pile " + pileCount);
                         // Found a place for the box so break out of the truck for-each and continue to next box.
                         break truckloop;
                     }
@@ -186,23 +209,16 @@ public class Algorithms
                 // Check if there is enough remaining room to create a new pile with the box.
                 if (t.addBox(b))
                 {
-                    System.out.println("New pile created: " + pileCount);
+//                    System.out.println("New pile created: " + pileCount);
                     // If enough room, box will be added as a new pile in the truck and continue to the next box.
                     break truckloop;
                 }
 
                 // If all the above have failed, the box cannot fit in this truck.
-                System.out.println("Can't fit in truck " + truckCount);
+//                System.out.println("Can't fit in truck " + truckCount);
             } // End of Truck loop
         } // End of Box loop
 
-        // Display each truck and it's contents.
-//        for (Truck t : trucks)
-//        {
-//            System.out.println("\n--------------------------------");
-//            System.out.println(t.toString());
-//            System.out.println("--------------------------------");
-//        }
 
         return trucks;
     }
