@@ -27,32 +27,21 @@ public class Truck
         return remainingWidth;
     }
 
-//    public int getRemainingHeight()
-//    {
-//        return remainingHeight;
-//    }
-
     public List<Box> getBoxes()
     {
         return boxes;
     }
 
+    /**
+     * Checks if a {@link Box} can be added to the bottom of the Truck, and if so, adds it.
+     * @param box The Box to add to the bottom of the Truck.
+     * @return True if Box was added to the bottom of the Truck successfully, or False if the Box cannot fit in the Truck.
+     */
     public boolean addBox(Box box)
     {
         // If box is too big for the truck, return false.
         if (!canFit(box))
             return false;
-
-//        for (Box b : boxes)
-//        {
-//            // If the first pile we come across can fit the new box, add it above that and return from the method.
-//            if (b.canFitBox(box))
-//            {
-//                b.setAboveBox(box);
-//
-//                return;
-//            }
-//        }
 
         // If box fits at the bottom of the truck fine,
         // update remaining width using dimensions of new box,
@@ -62,6 +51,10 @@ public class Truck
         return true;
     }
 
+    /**
+     * Calculates the total number of Boxes in the Truck, including Boxes on top of other Boxes.
+     * @return The number of Boxes in the Truck.
+     */
     public int getBoxCount()
     {
         int count = 0;
@@ -74,11 +67,11 @@ public class Truck
     }
 
     /**
-     * Checks if a box will fit in the Truck. Only checks if the box's dimensions
+     * Checks if a Box will fit in the Truck. Only checks if the Box's dimensions
      * are correct. To find an appropriate fit on a pile or as a separate pile, boxes in
      * the truck should be checked separately using {@link Box#canFitBox(Box)}.
-     * @param box The box to check fits.
-     * @return True if the box is small enough to fit in the truck, false if otherwise.
+     * @param box The Box to check.
+     * @return True if the Box is small enough to fit in the truck, false if otherwise.
      */
     private boolean canFit(Box box)
     {
@@ -87,9 +80,6 @@ public class Truck
             return false;
         if (box.getHeight() > TRUCK_HEIGHT)
             return false;
-        // If there are no boxes/piles yet, then there is space.
-//        if (boxes.size() == 0)
-//            return true;
 
         // If box fits, return true. Separate piles of boxes should be checked manually.
         return true;

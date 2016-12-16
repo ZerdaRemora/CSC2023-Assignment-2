@@ -3,6 +3,9 @@ import java.util.List;
 
 /**
  * Contains static methods for running the Next Fit and First Fit Truck Loading Problems.
+ * This class contains various commented println statements that offer a more verbose look at the algorithm.
+ * I have opted to keep this in, but commented to help readers of the code understand what the algorithm
+ * is doing.
  */
 public class Algorithms
 {
@@ -12,7 +15,7 @@ public class Algorithms
     public static List<Box> nextFitBoxes = new ArrayList<Box>();
     public static List<Box> firstFitBoxes = new ArrayList<Box>();
 
-    public static void main(String[] args) throws InterruptedException
+    public static void main(String[] args)
     {
         // Generate test data for both algorithms.
         BoxGenerator.generate();
@@ -29,9 +32,12 @@ public class Algorithms
             // Check each truck to see if it has any boxes, if it does, that Truck has been used.
             if (t.getBoxes().size() != 0)
                 usedTrucks++;
-//            System.out.println("\n--------------------------------");
-//            System.out.println(t.toString());
-//            System.out.println("--------------------------------");
+            // Uncomment this to view contents of each Truck. (NOTE: Will print all 1000 Trucks)
+            /*
+            System.out.println("\n--------------------------------");
+            System.out.println(t.toString());
+            System.out.println("--------------------------------");
+            */
         }
 
         System.out.println("Next Fit Truck Loading Problem End");
@@ -53,9 +59,12 @@ public class Algorithms
             // Check each truck to see if it has any boxes, if it does, that Truck has been used.
             if (t.getBoxes().size() != 0)
                 usedTrucks++;
-//            System.out.println("\n--------------------------------");
-//            System.out.println(t.toString());
-//            System.out.println("--------------------------------");
+            // Uncomment this to view contents of each Truck. (NOTE: Will print all 1000 Trucks)
+            /*
+            System.out.println("\n--------------------------------");
+            System.out.println(t.toString());
+            System.out.println("--------------------------------");
+            */
         }
 
         System.out.println("First Fit Truck Loading Problem End");
@@ -63,11 +72,16 @@ public class Algorithms
         System.out.println("Used " + usedTrucks + " trucks");
     }
 
+    /**
+     * A Java implementation of the Next Fit Greedy Algorithm for the Truck Loading Problem.
+     * The algorithm checks the last accessed pile in the last accessed Truck.
+     * @return The final List of Trucks with the added Boxes.
+     */
     public static List<Truck> NFTLP()
     {
         // Initialise truck list.
         trucks = new ArrayList<Truck>();
-        // Create and add 50 trucks.
+        // Create and add 'NUMBER_OF_BOXES' trucks.
         for (int i = 0; i < NUMBER_OF_BOXES; i++)
         {
             trucks.add(new Truck()); // Alternatively, could have as many trucks as boxes to ensure enough trucks.
@@ -97,6 +111,7 @@ public class Algorithms
                     else
                     {
                         // Box couldn't be added because as dimensions are too big.
+//                    System.out.println("Box dimensions too big to be added.");
                     }
 
                     continue;
@@ -152,11 +167,16 @@ public class Algorithms
         return trucks;
     }
 
+    /**
+     * A Java implementation of the First Fit Greedy Algorithm for the Truck Loading Problem.
+     * The algorithm checks each Truck and each pile of Boxes and inserts the Box in the first free location found.
+     * @return The final List of Trucks with the added Boxes.
+     */
     public static List<Truck> FFTLP()
     {
         // Initialise truck list.
         trucks = new ArrayList<Truck>();
-        // Create and add 50 trucks.
+        // Create and add 'NUMBER_OF_BOXES' trucks.
         for (int i = 0; i < NUMBER_OF_BOXES; i++)
         {
             trucks.add(new Truck()); // Alternatively, could have as many trucks as boxes to ensure enough trucks.

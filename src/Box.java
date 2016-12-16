@@ -26,6 +26,11 @@ public class Box
         return height;
     }
 
+    /**
+     * Recursively calculates the height of the pile that this box is in, counting from this box upwards.
+     * (i.e. Doesn't include height of boxes below it.)
+     * @return The height of the pile from this Box upwards.
+     */
     public int getPileHeight()
     {
         // If there is a box above this one, sum up the total height
@@ -47,6 +52,10 @@ public class Box
         return aboveBox;
     }
 
+    /**
+     * Calculates the total number of boxes in the pile that this box is in. Counts from this box upwards.
+     * @return The total number of boxes in the pile, from this box upwards.
+     */
     public int numberOfBoxesInPile()
     {
         if (aboveBox != null)
@@ -59,6 +68,12 @@ public class Box
         }
     }
 
+    /**
+     * Will check if this Box can fit in the pile, then recursively searches up the pile that this Box is in and
+     * add it to the top.
+     * @param box The Box to add to the pile.
+     * @return True if this box was successfully added to the pile, False if not.
+     */
     public boolean setAboveBox(Box box)
     {
         /* If the incoming box won't fit on this box, return from the method.
@@ -85,6 +100,11 @@ public class Box
         return true;
     }
 
+    /**
+     * Private helper function to check if a Box will fit on top of this Box, or in the pile that this Box is in.
+     * @param box The Box to check.
+     * @return True if the Box can fit, False if otherwise.
+     */
     private boolean canFitBox(Box box)
     {
         // Check if a box can fit on this box. It must have a width that is less than or equal

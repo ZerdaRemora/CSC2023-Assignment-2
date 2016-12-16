@@ -10,6 +10,10 @@ import java.util.Random;
  */
 public class BoxGenerator
 {
+    /**
+     * Generates a set amount of Boxes with random width/height values and adds them
+     * to Lists to be used by the two algorithms.
+     */
     public static void generate()
     {
         List<Box> boxes = new ArrayList<Box>();
@@ -19,24 +23,11 @@ public class BoxGenerator
             Random r = new Random();
             int width = r.nextInt(2000) + 1;    // Generates between 0 and 1999 so add 1 to give numbers between 1 and 2000.
             int height = r.nextInt(1000) + 1;   // Generates between 0 and 999 so add 1 to give numbers between 1 and 1000.
-            //boxes.add(new Box(width, height));
+
+            // Add the same box to both algorithm box lists.
             Algorithms.firstFitBoxes.add(new Box(width, height));
             Algorithms.nextFitBoxes.add(new Box(width, height));
         }
 
-//        boxes.add(new Box(300, 100));
-//        boxes.add(new Box(500, 20));
-//        boxes.add(new Box(50, 10));
-//        boxes.add(new Box(1200, 500));
-//        boxes.add(new Box(600, 300));
-//        boxes.add(new Box(400, 200));
-//        boxes.add(new Box(550, 200));
-//        boxes.add(new Box(525, 100));
-//        boxes.add(new Box(225, 700));
-//        boxes.add(new Box(20, 70));
-//        boxes.add(new Box(30, 70));
-//        boxes.add(new Box(300, 700));
-//        boxes.add(new Box(300, 700));
-//        boxes.add(new Box(2000, 1000));
     }
 }
